@@ -10,14 +10,13 @@ def establish_db_connection(db)
 end
 
 configure :development do
- set :show_exceptions, true
+  set :show_exceptions, true
 
- db = URI.parse('')
- establish_db_connection(db)
+  db = URI.parse('postgres://lenny:leonard@localhost/calculator')
+  establish_db_connection(db)
 end
 
 configure :production do
- db = URI.parse(ENV['DATABASE_URL'])
- establish_db_connection(db)
+  db = URI.parse(ENV['DATABASE_URL'])
+  establish_db_connection(db)
 end
-

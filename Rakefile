@@ -1,3 +1,2 @@
-require './app'
+require './boot'
 require 'sinatra/activerecord/rake'
-

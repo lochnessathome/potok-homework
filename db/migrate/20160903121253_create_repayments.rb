@@ -6,7 +6,7 @@ class CreateRepayments < ActiveRecord::Migration
       # values up to 9`999`999`999.00
       t.decimal :amount, null: false, precision: 10, scale: 2
 
-      t.boolean :increased_rate, null: false, default: false
+      t.boolean :increased_rate_flag, null: false, default: false
 
       t.datetime :date, null: false
     end

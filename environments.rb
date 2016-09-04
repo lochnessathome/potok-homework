@@ -1,22 +1,10 @@
-def establish_db_connection(db)
-  ActiveRecord::Base.establish_connection(
-    :adapter  => db.scheme == 'postgres' ? 'postgresql' : db.scheme,
-    :host     => db.host,
-    :username => db.user,
-    :password => db.password,
-    :database => db.path[1..-1],
-    :encoding => 'utf8'
-  )
-end
-
 configure :development do
   set :show_exceptions, true
 
-  db = URI.parse('postgres://lenny:leonard@localhost/calculator')
-  establish_db_connection(db)
+  ActiveRecord::Base.establish_connection('sqlite3:dev.sqlite')
+  # ActiveRecord::Base.establish_connection('postgres://lenny:leonard@localhost/calculator')
 end
 
 configure :production do
-  db = URI.parse(ENV['DATABASE_URL'])
-  establish_db_connection(db)
+  ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
 end

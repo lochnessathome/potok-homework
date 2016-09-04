@@ -6,8 +6,8 @@ class CreateLoans < ActiveRecord::Migration
       # values up to 9`999`999`999.00
       t.decimal :amount, null: false, precision: 10, scale: 2
 
-      t.decimal :normal_rate, null: false, precision: 1, scale: 4
-      t.decimal :increased_rate, null: false, precision: 1, scale: 4
+      t.decimal :normal_rate, null: false, precision: 4, scale: 4
+      t.decimal :increased_rate, null: false, precision: 4, scale: 4
 
       t.datetime :start_date, null: false
       t.datetime :end_date, null: false

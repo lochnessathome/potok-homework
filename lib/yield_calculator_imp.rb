@@ -8,7 +8,13 @@ class YieldCalculatorImp
   end
 
   def get_historical_yield()
-    (get_repayments_percents_sum() / get_loans_amount()) * MONTHS_COUNT / get_loans_period()
+    {
+      repayments_percents_sum: get_repayments_percents_sum,
+      loans_amount: get_loans_amount,
+      loans_period: get_loans_period
+    }
+
+    # (get_repayments_percents_sum() / get_loans_amount()) * MONTHS_COUNT / get_loans_period()
   end
 
   private

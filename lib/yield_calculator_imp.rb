@@ -39,7 +39,7 @@ class YieldCalculatorImp
         SELECT SUM(loans.amount * (CASE WHEN repayments.increased_rate_flag == 't' THEN loans.increased_rate ELSE loans.normal_rate END) / #{MONTHS_COUNT}) as repayment_percents
         FROM loans INNER JOIN repayments ON loans.id = repayments.loan_id
         GROUP BY loans.id
-      );
+      ) AS percents;
     SQL
 
     get_aggregation_result(query)

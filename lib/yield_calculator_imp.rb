@@ -8,35 +8,35 @@ class YieldCalculatorImp
   end
 
   def get_historical_yield()
-    {
-      repayments_percents_sum: get_repayments_percents_sum,
-      loans_amount: get_loans_amount,
-      loans_period: get_loans_period
-    }
-
-    # (get_repayments_percents_sum() / get_loans_amount()) * MONTHS_COUNT / get_loans_period()
+    (get_repayments_percents_sum() / get_loans_amount()) * MONTHS_COUNT / get_loans_period()
   end
 
   private
 
   def get_aggregation_result(query)
-    # result = begin
-      result = @db_link.execute(query)
-    # rescue
-    # end
-    return nil if !result || !result.kind_of?(Array) || !result.any?
+    result = begin
+      @db_link.execute(query)
+    rescue
+    end
+    return nil unless result
 
-    row = result[0]
-    return nil if !row || !row.kind_of?(Hash) || !row.any?
-
-    row.values[0]
+    if result.kind_of?(PG::Result)
+      values = result.values
+      return nil if !values || !values.kind_of?(Array)
+      values.flatten[0]
+    else
+      return nil if !result.kind_of?(Array) || !result.any?
+      row = result[0]
+      return nil if !row || !row.kind_of?(Hash) || !row.any?
+      row.values[0]
+    end
   end
 
   def get_repayments_percents_sum()
     query = <<-SQL
       SELECT SUM(repayment_percents)
       FROM (
-        SELECT SUM(loans.amount * (CASE WHEN repayments.increased_rate_flag == 't' THEN loans.increased_rate ELSE loans.normal_rate END) / #{MONTHS_COUNT}) as repayment_percents
+        SELECT SUM(loans.amount * (CASE WHEN repayments.increased_rate_flag = 't' THEN loans.increased_rate ELSE loans.normal_rate END) / #{MONTHS_COUNT}) as repayment_percents
         FROM loans INNER JOIN repayments ON loans.id = repayments.loan_id
         GROUP BY loans.id
       ) AS percents;

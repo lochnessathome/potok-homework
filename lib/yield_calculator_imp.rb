@@ -42,7 +42,7 @@ class YieldCalculatorImp
       ) AS percents;
     SQL
 
-    get_aggregation_result(query)
+    get_aggregation_result(query).to_f
   end
 
   def get_loans_amount()
@@ -51,7 +51,7 @@ class YieldCalculatorImp
       FROM loans;
     SQL
 
-    get_aggregation_result(query)
+    get_aggregation_result(query).to_f
   end
 
   def get_loans_period()

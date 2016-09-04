@@ -6,5 +6,5 @@ configure :development do
 end
 
 configure :production do
-  ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
+  # ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
 end

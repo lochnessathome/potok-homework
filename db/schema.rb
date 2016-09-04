@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20160903121253) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "lenders", force: :cascade do |t|
     t.string "name", null: false
   end
@@ -20,13 +23,13 @@ ActiveRecord::Schema.define(version: 20160903121253) do
   create_table "loans", force: :cascade do |t|
     t.integer  "lender_id"
     t.decimal  "amount",         precision: 10, scale: 2, null: false
-    t.decimal  "normal_rate",    precision: 1,  scale: 4, null: false
-    t.decimal  "increased_rate", precision: 1,  scale: 4, null: false
+    t.decimal  "normal_rate",    precision: 4,  scale: 4, null: false
+    t.decimal  "increased_rate", precision: 4,  scale: 4, null: false
     t.datetime "start_date",                              null: false
     t.datetime "end_date",                                null: false
   end
 
-  add_index "loans", ["lender_id"], name: "index_loans_on_lender_id"
+  add_index "loans", ["lender_id"], name: "index_loans_on_lender_id", using: :btree
 
   create_table "repayments", force: :cascade do |t|
     t.integer  "loan_id"
@@ -35,6 +38,8 @@ ActiveRecord::Schema.define(version: 20160903121253) do
     t.datetime "date",                                                         null: false
   end
 
-  add_index "repayments", ["loan_id"], name: "index_repayments_on_loan_id"
+  add_index "repayments", ["loan_id"], name: "index_repayments_on_loan_id", using: :btree
 
+  add_foreign_key "loans", "lenders"
+  add_foreign_key "repayments", "loans"
 end

@@ -20,10 +20,10 @@ class YieldCalculatorImp
   private
 
   def get_aggregation_result(query)
-    result = begin
-      @db_link.execute(query)
-    rescue
-    end
+    # result = begin
+      result = @db_link.execute(query)
+    # rescue
+    # end
     return nil if !result || !result.kind_of?(Array) || !result.any?
 
     row = result[0]

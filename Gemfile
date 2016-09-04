@@ -12,4 +12,6 @@ gem 'sinatra-activerecord', '~> 2.0.10'
 
 gem 'pg', '~> 0.18.4'
 
+gem 'tux'
+
 # gem 'sqlite3'
